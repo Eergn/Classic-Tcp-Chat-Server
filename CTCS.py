@@ -2,7 +2,7 @@ import threading
 import socket
 
 ServerHost = "127.0.0.1"
-Port = 497
+Port = 65432
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind((ServerHost, Port))
@@ -30,9 +30,6 @@ def handle(client):
             broadcast(f'{username} left the chat'.encode('ascii'))
             usernames.remove(username)
             break
-
-# recieving
-# hi
 
 
 def receive():
