@@ -12,7 +12,15 @@ clients = []
 usernames = []
 
 
-def broadcast(message):
+def broadcast(message, cuser):
+    for client in clients:
+        if client == cuser:
+            client.send("\n".encode("ascii"))
+        else:
+            client.send(message)
+
+
+def broadcast1(message):
     for client in clients:
         client.send(message)
 
@@ -21,7 +29,8 @@ def handle(client):
     while True:
         try:
             message = client.recv(1024)
-            broadcast(message)
+            broadcast(message, client)
+
         except:
             index = clients.index(client)
             clients.remove(client)
@@ -45,7 +54,7 @@ def receive():
         usernames.append(username)
         clients.append(client)
         print(f"User Name Is {username}")
-        broadcast((username + " Joined The Chat! .\n").encode("ascii"))
+        broadcast1((username + " Joined The Chat! .\n").encode("ascii"))
 
         thread = threading.Thread(target=handle, args=(client,))
         thread.start()
